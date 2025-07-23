@@ -1,7 +1,8 @@
 package api;
 
-import com.google.gson.Gson;
-import models.ExchangeRate;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,9 +10,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class FetchExchangeRate {
-    public ExchangeRate getRate (String baseCurrency, String targetCurrency) {
+    public static double getRate (String baseCurrency, String targetCurrency, double ammount) {
         String apiKey = "0c45f81e5ff44e267d13a793";
-        URI url = URI.create("https://v6.exchangerate-api.com/v6/" + apiKey + "/pair/" + baseCurrency + "/" + targetCurrency);
+        URI url = URI.create("https://v6.exchangerate-api.com/v6/" + apiKey + "/pair/" + baseCurrency + "/" + targetCurrency + "/" + ammount);
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -25,10 +26,11 @@ public class FetchExchangeRate {
             int statusCode = response.statusCode();
             String responseBody = response.body();
 
-            System.out.println("Código de estado HTTP: " + statusCode);
-
             if (statusCode == 200) {
-                return new Gson().fromJson(responseBody, ExchangeRate.class);
+                JsonElement element = JsonParser.parseString(responseBody);
+                JsonObject objectRoot = element.getAsJsonObject();
+
+                return objectRoot.get("conversion_result").getAsDouble();
             } else {
                 throw new RuntimeException("Error en la solicitud: Código de estado " + statusCode);
             }

@@ -1,0 +1,3 @@
+Moneda Base: USD              Moneda Destino: ARS           Monto Base: 25                Monto Destino: 31654,25       Fecha: 23/07/2025
+Moneda Base: USD              Moneda Destino: PEN           Monto Base: 50                Monto Destino: 177,88         Fecha: 23/07/2025
+Moneda Base: PEN              Moneda Destino: USD           Monto Base: 500               Monto Destino: 140,55         Fecha: 23/07/2025
